@@ -24,7 +24,7 @@ const kittyPrompts = {
     // Return an array of just the names of kitties who are orange e.g.
         // ['Tiger', 'Snickers']
 
-        /* CODE GOES HERE */
+        // 
 
     // Annotation:
     // Write your annotation here as a comment
