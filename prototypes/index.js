@@ -500,10 +500,16 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    /* CODE GOES HERE */
+    let returnBeerCount = breweries.reduce((total, brew) => {
+      return total += brew.beers.length;
+    }, 0);
+    return returnBeerCount;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: a var = an array of objects with 3 keys of name, neighborhood and beers
+    // beers is an an array of objects with the keys of name, type, abv, ibu
+    // output: a sum of total beers in the beers array for all breweries
+    // I think a reduce function is needed here
   },
 
   getBreweryBeerCount() {
@@ -515,10 +521,17 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    /* CODE GOES HERE */
+    let newBreweries = breweries.map(brew => {
+      return {'name': brew.name, 'beerCount': brew.beers.length}
+    })
+    return newBreweries;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: a var = an array of objects with 3 keys of name, neighborhood and beers
+    // beers is an an array of objects with the keys of name, type, abv, ibu
+    // output: objects with two properties each of name and a new beerCount value key
+    // I think a MAP method is need on this to access breweries then beers,
+    // then return the length of that array
   },
 
   getSingleBreweryBeerCount(breweryName) {

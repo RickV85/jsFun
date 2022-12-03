@@ -75,7 +75,7 @@ describe("PROTOTYPES", () => {
       }])
     })
     describe('kittyPrompts refactor', () => {
-      it.skip('should be able to handle orange puppers', () => {
+      it('should be able to handle orange puppers', () => {
         const e = kittyPrompts.orangePetNames(puppers);
 
         expect(e).to.deep.equal(["Hatchet", "Butter"])
@@ -128,7 +128,7 @@ describe("PROTOTYPES", () => {
   });
 
   describe("Club Prompts", () => {
-    it("membersBelongingToClubs", () => {
+    it.skip("membersBelongingToClubs", () => {
       const e = clubPrompts.membersBelongingToClubs(clubs);
 
       expect(e).to.deep.equal({
@@ -444,13 +444,13 @@ describe("PROTOTYPES", () => {
   });
 
   describe("Brewery Prompts", () => {
-    it.skip("getBeerCount", () => {
+    it("getBeerCount", () => {
       const e = breweryPrompts.getBeerCount();
 
       expect(e).to.deep.equal(40)
     });
 
-    it.skip("getBreweryBeerCount", () => {
+    it("getBreweryBeerCount", () => {
       const e = breweryPrompts.getBreweryBeerCount();
 
       expect(e).to.deep.equal([{
