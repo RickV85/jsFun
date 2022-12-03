@@ -20,26 +20,48 @@ const { dinosaurs, humans, movies } = require('./datasets/dinosaurs');
 
 // DATASET: kitties from ./datasets/kitties
 const kittyPrompts = {
-  orangePetNames() {
+  orangePetNames(kittyData) {
     // Return an array of just the names of kitties who are orange e.g.
         // ['Tiger', 'Snickers']
 
-        // 
+        // input: an array of objects
+        // output: an array of strings that represent the names of orange kitties
+        // Seems like .map is the way to go here. Had to also filter first.
+        const orangeKitties = kittyData.filter(cat => {
+          return cat.color == "orange";
+        });
+        
+        const orangeKittyNames = orangeKitties.map(cat => {
+          return cat.name;
+        });
+
+        return orangeKittyNames;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Make sure to see the filter needed first in this. Could have written that 
+    // as a seperate function to invoke with .map.
   },
 
-  sortByAge() {
+  sortByAge(kittyData) {
     // Sort the kitties by their age
 
-    /* CODE GOES HERE */
+    // input: an array of objects
+    // output: the same array of objects, sorted descending by their age
+    // Thinking a .sort method will be needed here
+
+    let kittiesSortedByAge = [];
+    
+    kittyData.forEach((kitty) => {
+      kittiesSortedByAge.push(kitty);
+      kittiesSortedByAge.sort(function(a, b){return b.age - a.age});
+    });
+    return kittiesSortedByAge;
 
     // Annotation:
-    // Write your annotation here as a comment
+        // Probably could use .map here instead
   },
 
-  growUp() {
+  growUp(kittyData) {
     // Return an array of kitties who have all grown up by 2 years e.g.
     // [{
     //   name: 'Felicia',
@@ -52,8 +74,11 @@ const kittyPrompts = {
     //   color: 'orange'
     // },
     // ...etc]
-
-    /* CODE GOES HERE */
+    let grownUpKitties = kittyData.map(kitty => {
+      kitty.age += 2;
+      return kitty;
+    })
+    return this.sortByAge(grownUpKitties);
   }
 };
 

@@ -1,3 +1,14 @@
+## Difficulty guide from Angie from easiest to hardest
+
+Kitties & Puppers
+Breweries
+Mods
+Weather
+Classrooms
+National Parks
+cakes
+books
+Clubs
 # jsFun
 
 This repo contains practice exercises for the fundamental JavaScript concepts of prototype methods and scope. Each concept has a corresponding folder with a README that includes instructions for solving each type of problem.
