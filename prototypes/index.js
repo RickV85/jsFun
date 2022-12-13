@@ -391,10 +391,17 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    /* CODE GOES HERE */
+    let avgTemps = weather.reduce((avgArray, data) => {
+      let dataAvg = (data.temperature.high + data.temperature.low) / 2;
+      avgArray.push(dataAvg);
+      return avgArray;
+    }, [])
+    return avgTemps;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an array of objects with properties of location, type, humidity, and temperature which is an object with properties of high and low.
+    // output: an array of the average temps for each object in the array. Avg temp is high + low temp / 2.
+    // Use reduce to produce a number representing the avg temp for each object
   },
 
   findSunnySpots() {
@@ -404,10 +411,18 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    /* CODE GOES HERE */
+    let sunnyLocations = weather.filter(data => data.type.includes('sunny' || 'mostly sunny'));
+    let createMessages = sunnyLocations.reduce((array, data) => {
+      array.push(`${data.location} is ${data.type}.`)
+      return array;
+    }, [])
+    return createMessages;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: return an array of interpolated strings ony for element.type === 'sunny' || 'mostly sunny', saying "element.location is element.type"
+    // Use filter assigned to a var that is just sunny or mostly sunny elements
+    // Use reduce to produce strings with element.location and element.type in an array
   },
 
   findHighestHumidity() {
@@ -419,10 +434,18 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    /* CODE GOES HERE */
+    let highestHumidity = weather.reduce((highest, data) => {
+      if (data.humidity > highest.humidity) {
+        highest = data;
+      }
+      return highest;
+    })
+    return highestHumidity;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same
+    // output: return an object that has the highest humidity
+    // Use reduce and a conditioanl to only return the object with the highest humidity
 
   }
 };
