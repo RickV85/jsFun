@@ -289,10 +289,13 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    /* CODE GOES HERE */
+    let frontEndClass = classrooms.filter(classroom => classroom.program === 'FE');
+    return frontEndClass;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an array of objects representing classrooms. Properties of roomLetter, program and capacity
+    // output: a filtered array that represents just FE classroom objects
+    // Use filter to return only program === 'FE'
   },
 
   totalCapacities() {
@@ -303,19 +306,32 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    /* CODE GOES HERE */
+    let classCapacities = classrooms.reduce((obj, classroom) => {
+      if (classroom.program === "FE") {
+        obj.feCapacity += classroom.capacity;
+      } else {
+        obj.beCapacity += classroom.capacity;
+      }
+      return obj;
+    }, {feCapacity: 0, beCapacity: 0})
+
+    return classCapacities;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: return an object that represents the total for all FE and BE classrooms, each as properties
+    // Use reduce to and conditionals to sum up capacity and create a new obj to return
   },
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    /* CODE GOES HERE */
+    return classrooms.sort((a, b)=> a.capacity - b.capacity);
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: the same array but sorted my capacity
+    // Use sort on classrooms and return the sorted classroom array
   }
 };
 
