@@ -147,10 +147,19 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    /* CODE GOES HERE */
+    let modsByStudPerIns = mods.reduce((array, mod) => {
+      let newMod = {}
+      newMod.mod = mod.mod;
+      newMod.studentsPerInstructor = mod.students / mod.instructors;
+      array.push(newMod);
+      return array;
+    }, [])
+    return modsByStudPerIns;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an array of objects, each object has properties of mod, students and instructors
+    // output: return an array of objects that have properties of mod and studentsPerInstructor
+    // Use reduce to divide the number of students by an instructor and return the object
   }
 };
 
@@ -655,7 +664,7 @@ const boardGamePrompts = {
       total += game.rating;
       return total;
     }, 0)
-    
+
     return totalRating / boardGames[type].length;
 
     // Annotation:
