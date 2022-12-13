@@ -540,10 +540,19 @@ const breweryPrompts = {
     // given 'Ratio Beerworks', return 5
 
 
-    /* CODE GOES HERE */
+    let singleBreweryBeerCount = breweries.reduce((singleBrewCount, brew) => {
+      if (brew.name === breweryName) {
+        singleBrewCount = brew.beers.length;
+      };
+      return singleBrewCount;
+    }, 0);
+    return singleBreweryBeerCount;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: a var = an array of objects with 3 keys of name, neighborhood and beers
+    // parameter of breweryName to specify which we want ro get the beer count for specifically
+    // steps: Run an REDUCE method on THIS with a conditional to match the breweryName and then
+    // return a number value of their beer count.
   },
 
   findHighestAbvBeer() {
@@ -551,10 +560,26 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    /* CODE GOES HERE */
+    let allBreweriesBeers = breweries.map((brewery) => {
+      return brewery.beers;
+    });
+
+    let justBeerArray = allBreweriesBeers.reduce((justBeers, brewery) => {
+      let joinedArray = justBeers.concat(brewery);
+      justBeers = joinedArray;
+      return justBeers;
+    }, [])
+
+    justBeerArray.sort((a,b) => {return b.abv - a.abv})
+
+    return justBeerArray[0];
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: a var = an array of objects with 3 keys of name, neighborhood and beers
+    // no parameters so this will need to look at all breweries and look for the beer with the
+    // highest ABV value and return the entire beer object of it.
+    // Use a reduce to generate an array of all beer objects
+    // Use a sort to arrange them in ascending order and return the [0] index.
   }
 };
 
@@ -573,10 +598,18 @@ const boardGamePrompts = {
     // e.g. given an argument of "strategy", return
     // ["Chess", "Catan", "Checkers", "Pandemic", "Battle Ship", "Azul", "Ticket to Ride"]
 
-    /* CODE GOES HERE */
+    let justTypeGames = boardGames[type].map(gameArray => {
+      return gameArray.name;
+    })
+
+    return justTypeGames;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an object with properties of strategy, party and childrens that each contain an array of objects that are games
+    // output: an array that is just the names of the games decided by the argument passed in
+    // steps: boardGames[type] should access the property's array we want
+    // run a map on that assigned to a justNames variable that creates just names of those games
+    // and then return that arry in the main function
   },
 
   listGamesAlphabetically(type) {
@@ -584,11 +617,13 @@ const boardGamePrompts = {
     // type, sorted alphabetically. 
     // e.g. given an argument of "childrens", return
     // ["Candy Land", "Connect Four", "Operation", "Trouble"]
-
-    /* CODE GOES HERE */
+    let justTypeGames = this.listGames(type);
+    return justTypeGames.sort();
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an object with properties of strategy, party and childrens that each contain an array of objects that are games
+    // output: an array of just the game type argument passed in names but sorted alphabetically
+    // Use previous method, assign it to a variable and sort it alphabetically
   },
 
   findHighestRatedGamesByType(type) {
@@ -596,10 +631,19 @@ const boardGamePrompts = {
     // e.g. given the argument of 'party', return
     // { name: 'Codenames', rating: 7.4, maxPlayers: 8 },
 
-    /* CODE GOES HERE */
+    let highestRatingGame = boardGames[type].reduce((topGame, game) => {
+      if (game.rating > topGame.rating) {
+        topGame = game;
+      }
+      return topGame;
+    })
+    return(highestRatingGame);
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an object with properties of strategy, party and childrens that each contain an array of objects that are games
+    // output: return an object that is just the highest rated game in eace type array
+    // Run a map to get just the game of each type, then reduce it with a sort to find
+    // the highest rating in each category
   },
 
   averageScoreByType(type) {
@@ -607,10 +651,17 @@ const boardGamePrompts = {
     // e.g. given the argument of "strategy", return 7
     // note: do not worry about rounding your result.
 
-    /* CODE GOES HERE */
+    let totalRating = boardGames[type].reduce((total, game) => {
+      total += game.rating;
+      return total;
+    }, 0)
+    
+    return totalRating / boardGames[type].length;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an object with properties of strategy, party and childrens that each contain an array of objects that are games
+    // output: return a number that represents the average rating for each array of games
+    // Use reduce to produce a number representing the total rating score then divide it by the array length for an average and return that.
   },
 
   averageScoreByTypeAndPlayers(type, maximumPlayers) {
@@ -619,10 +670,20 @@ const boardGamePrompts = {
     // e.g. given the arguments of "strategy" and 2, return 6.16666666667
     // note: do not worry about rounding your result.
 
-    /* CODE GOES HERE */
+    let filteredGames = boardGames[type].filter(game => {
+      return game.maxPlayers === maximumPlayers});
+
+    let totalRating = filteredGames.reduce((total, game) => {
+      total += game.rating;
+      return total;
+    }, 0)
+
+    return totalRating / filteredGames.length;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an object with properties of strategy, party and childrens that each contain an array of objects that are games
+    // output: return the average rating of just the games that are equal to the argument of maximum players
+    // May use above method to average, but need to add a conditional or filter of max playeers
   }
 };
 
