@@ -484,10 +484,22 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    /* CODE GOES HERE */
+    let visitList = nationalParks.reduce((listObj, park) => {
+      if (park.visited === true) {
+        listObj.parksVisited.push(park.name);
+      } else { 
+        listObj.parksToVisit.push(park.name);
+      }
+      return listObj;
+    }, {parksToVisit: [], parksVisited: []})
+
+    return visitList;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an array of objects, containing name, visitied, location, and activities shich has an array as a value
+    // output: Return a single object that has keys of parksToVisit and parksVisited with values of an array of parks matching a condition of park.visited === true or false
+    // Use reduce on nationalParks with conditionals to put them in the appropriate property with just the park name
+
   },
 
   getParkInEachState() {
@@ -499,11 +511,17 @@ const nationalParksPrompts = {
     // { Utah: 'Zion' },
     // { Florida: 'Everglades' } ]
 
+    let parksByState = nationalParks.reduce((parkArray, park) => {
+      parkArray.push({[park.location]: park.name});
+      return parkArray;
+    }, [])
 
-    /* CODE GOES HERE */
+    return parksByState;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: an array of objects with keys of states their values are located in
+    // Use reduce to create the array, use park.location as the key and create a new property if it does not exist yet, then push the matching park.name in the key's array
   },
 
   getParkActivities() {
@@ -522,10 +540,24 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    /* CODE GOES HERE */
+    let allParkActivities = nationalParks.reduce((array, park) => {
+      let allActivities = [];
+      park.activities.forEach(activity => {
+        if (!array.includes(activity)) {
+          allActivities.push(activity);
+        }
+      })
+      let combinedArray = array.concat(allActivities);
+      array = combinedArray;
+      return array;
+    }, [])
+    
+    return allParkActivities;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: return an array of all activities available in all natinalParks objects without duplicates as strings
+    // Use reduce and a forEach to put all activities in and prevent duplicates with a .includes
   }
 };
 
