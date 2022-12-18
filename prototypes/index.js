@@ -190,10 +190,16 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    /* CODE GOES HERE */
+    let stockPerCake = cakes.map(cake => {
+      return {'flavor': cake.cakeFlavor, 'inStock': cake.inStock}
+    })
+    return stockPerCake;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: an array of objects with properties of cakeFlavor, filling, frosting, toppings [], inStock
+    // output: an array of objects with 'flavor' : 'cakeFlavor', 'inStock': #
+    // Use map to return an array
+    // 'flavor': cake.cakeFlavor, 'inStock': cake.instock
   },
 
   onlyInStock() {
@@ -217,20 +223,28 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    /* CODE GOES HERE */
+    let inStockCakes = cakes.filter(cake => cake.inStock > 0)
+    return inStockCakes;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: an array of cake objects that are in stock
+    // Use filter, if (inStock > 0) {return cake}
   },
 
   totalInventory() {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    /* CODE GOES HERE */
+    let totalInStock = cakes.reduce((total, cake) => {
+      return total += cake.inStock;
+    }, 0)
+    return totalInStock;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: return a sum of all cakes in stock
+    // Use reduce to sum up all inStock values and return it. cake.inStock
   },
 
   allToppings() {
@@ -238,10 +252,22 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    /* CODE GOES HERE */
+    let toppingsArray = [];
+    cakes.forEach((cake) => {
+      cake.toppings.forEach(topping => {
+        if (!toppingsArray.includes(topping)) {
+          toppingsArray.push(topping);
+        }
+      })
+    })
+    return toppingsArray;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: an array of all unique ingredients
+    // Use reduce(or forEach?) on cakes, return an array of cake.toppings with no duplicates by adding a conditional
+    // then push that item in the array. May need an additional reduce/map layer to go through each array 
+    // of toppings
   },
 
   groceryList() {
@@ -255,10 +281,23 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    /* CODE GOES HERE */
+    let cakeList = cakes.reduce((list, cake) => {
+      cake.toppings.forEach(topping => {
+        if (!list[topping]) {
+          list[topping] = 0;
+        }
+        list[topping] += 1;
+      })
+      return list;
+    }, {})
+    return cakeList;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: an object that contains keys of the ingredients needed for all
+    // ingredients needed and amount as the values
+    // Use reduce on cakes to assemble an object. Use includes plus an incrementor
+    // variable for each topping to count them
   }
 };
 
@@ -344,7 +383,7 @@ const classPrompts = {
 // DATASET: books from './datasets/books
 
 const bookPrompts = {
-  removeViolence() {
+  removeViolence(b) {
     // Your function should access the books data through a parameter (it is being passed as an argument in the test file)
     // return an array of all book titles that are not horror or true crime. Eg:
 
@@ -354,14 +393,25 @@ const bookPrompts = {
     //   'The Curious Incident of the Dog in the Night - Time', 'The Bell Jar',
     //   'Catch-22', 'Treasure Island']
 
-
-    /* CODE GOES HERE */
+    let noViolence = b.reduce((array, book) => {
+      if (book.genre === 'True Crime' || book.genre === 'Horror') {
+        return array;
+      } else {
+        array.push(book.title);
+      }
+      return array;
+    }, [])
+    return noViolence;
+    
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: a parameter of books, books is an an array of objects. The objects have
+    // title, author, genre and year as keys. All are strings besides publised == num.
+    // Create a new array with reduce, use a conditional to push the book name in to it if
+    // book.genre is not horror or true crime.
 
   },
-  getNewBooks() {
+  getNewBooks(b) {
     // return an array of objects containing all books that were
     // published in the 90's and 00's. Inlucde the title and the year Eg:
 
@@ -369,10 +419,18 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    /* CODE GOES HERE */
+    let newBooks = b.filter(book => book.published >= 1990).map(book => {
+      return {title: book.title, year: book.published}
+    })
+    return newBooks;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: return an array of book objs (with title and year as keys)
+    // that were written in  1990 or later
+    // Create a new array with filter conditional of book.published >= 1990
+    // then use map on that array to make a new array just containing the 
+    // obj title and publised year props
   },
 
   getBooksByYear(books, year) {
@@ -385,10 +443,22 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    /* CODE GOES HERE */
+    let filteredBooks = books.filter(book => book.published >= year).reduce((array, book) => {
+      array.push({'title': book.title, 'year': book.published});
+      return array;
+    }, [])
+    return filteredBooks;
+
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same array of books, parameters of books to represent those
+    // and a year preoperty
+    // output: return an array of objects that have a publish date later than the year
+    // argument
+    // Create a new array with filter for book.published >= year
+    // then reduce that array to create an array of objects similar to above with
+    // return {'title': book.title, 'year': book.published}
+    // return the array
   }
 
 };
