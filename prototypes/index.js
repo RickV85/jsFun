@@ -892,10 +892,21 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-    /* CODE GOES HERE */
+    let studentsPerTeacher = instructors.map(instructor => {
+      return {'name': instructor.name, 'studentCount': (cohorts.find(cohort => cohort.module === instructor.module).studentCount)};
+    })
+
+    return studentsPerTeacher;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: instructors = array of objs [{name, module, teaches: []}]
+    // cohorts = array of objs [{cohort, module, studentCount, curriculum: []}]
+    // output: an array of objects, {name: 'instructor.name, studentCount:
+    // (sum of student count for the module they each teach)}
+    // Create an array of objects with instructors.map
+    // Use find to match up the module they teach then assign studentCount with
+    // a find method
+
   },
 
   studentsPerInstructor() {
@@ -905,10 +916,27 @@ const turingPrompts = {
     // cohort1804: 10.5
     // }
 
-    /* CODE GOES HERE */
+    let insPerMod = instructors.reduce((obj, ins) => {
+      if (!obj[ins.module]) {
+        obj[ins.module] = 0;
+      }
+      obj[ins.module] += 1;
+      return obj;
+    }, {});
+    
+    let insPerCohort = cohorts.reduce((obj, cohort) => {
+      let objKey = `cohort${cohort.cohort}`;
+      obj[objKey] = (cohort.studentCount / insPerMod[cohort.module]);
+      return obj;
+    }, {})
+    return insPerCohort;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: an object with properties of cohort and value is students per instructor
+    // Use reduce on instructors - produce an object with the module # and a value
+    // of how many teachers there are teaching it
+    // Use reduce on cohorts to create an object with cohort.cohort: (modObj.find(mod => mod.name === cohort.module).studentCount) / mod.num
   },
 
   modulesPerTeacher() {
@@ -926,10 +954,29 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    /* CODE GOES HERE */
+    let modsForTeach = instructors.reduce((obj, ins) => {
+      if (!obj[ins.name]) {
+        obj[ins.name] = [];
+      }
+      cohorts.forEach(cohort => {
+        if (cohort.curriculum.some(subject => ins.teaches.includes(subject))) {
+          obj[ins.name].push(cohort.module)
+        }
+      })
+      return obj;
+    }, {})
+    return modsForTeach;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same as above
+    // output: an object with keys of instructors.name with values of mod numbers
+    // they can teach bashed on if instructors.teaches if they have all the
+    // cirriculum in cohorts.curriculum;
+    // Use instructors.reduce to create an object with instructor.name as a key
+    // and assign that to an empty array if it has not yet been created.
+    // Then use cohorts.forEach and cohort.includes(instructor.teaches)
+    // If true, instructor.name.push(cohort.module)
+    // Return the object
   },
 
   curriculumPerTeacher() {
@@ -942,10 +989,34 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    /* CODE GOES HERE */
+    let subjectObj = cohorts.reduce((obj, cohort) => {
+      cohort.curriculum.forEach(subject => {
+        if (!obj[subject]) {
+          obj[subject] = [];
+        }
+        instructors.forEach(ins => {
+          ins.teaches.forEach(teach => {
+            if (teach === subject && !obj[subject].includes(ins.name)) {
+              obj[subject].push(ins.name)
+            }
+          })
+        })
+      })
+      return obj;
+    }, {})
+
+    console.log(subjectObj);
+
+    return subjectObj;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same
+    // output: an object with keys of subjects and valus of an array of ins that teach it
+    // Create an object by cohorts.reduce with keys of cohort.curriculum if the 
+    // key doesn't exist yet.
+    // Then use forEach on instructors. instructors.forEach(ins => ins.teaches)
+    // Use a conditional with includes(keyName) then assign it to the
+    // object created and return the object
   }
 };
 
