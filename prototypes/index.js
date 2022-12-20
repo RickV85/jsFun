@@ -1005,8 +1005,6 @@ const turingPrompts = {
       return obj;
     }, {})
 
-    console.log(subjectObj);
-
     return subjectObj;
 
     // Annotation:
@@ -1047,10 +1045,38 @@ const bossPrompts = {
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
 
-    /* CODE GOES HERE */
+    let bossArray = Object.keys(bosses).map(bossKey => {
+      return {'bossName': bosses[bossKey].name, 'sidekicks': bosses[bossKey].sidekicks.map(sidekick => {
+        let loyalty;
+        sidekicks.forEach(sK => {
+          if (sK.name === sidekick.name) {
+            loyalty = sK.loyaltyToBoss;
+          }
+        })
+        return loyalty;
+      })};
+    }).map(boss => {
+      let loyalty = boss.sidekicks.reduce((total, num) => {
+        return total += num;
+      }, 0)
+      return {'bossName': boss.bossName, 'sidekickLoyalty': loyalty}
+    })
+    return bossArray;
+
+
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: bosses - an object with properties of bosses, that are each objects
+    // that have the properties name, archnemesis, goal, sidekicks [{name, dispensability}
+    // weakness [], and signatureMove
+    // sidekicks - an array of objects eith name, associates, strengths, boss, and 
+    // loyalty to boss as properties
+    // output: an array of objects that have properties of bossName and
+    // sidekickLoyalty which is the total of all sidekick.loyaltyToBoss
+    // Use Object.keys to create an array of the bosses names
+    // Use that array to map an array with bosses each represented as an object
+    // Use filter to associate their sidekicks from the property to the sidekicks dataset
+    // Use reduce on each object in the array to get their sum of sidekickLoyalty
   }
 };
 
