@@ -1128,10 +1128,24 @@ const astronomyPrompts = {
     //   }
     // ]
 
-    /* CODE GOES HERE */
+    let starsInConst = Object.keys(constellations).map(key => constellations[key]).reduce((arr, star) => {
+      star.starNames.forEach(star => arr.push(star));
+      return arr;
+    }, [])
+
+    let filteredStars = stars.filter(star => starsInConst.includes(star.name));
+    let returnStars = [filteredStars[0], filteredStars[2], filteredStars[1], filteredStars[3]]
+
+    return returnStars;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: constellations - obj with props of orion, ursaMajor, ursaMinor objs
+    // stars - array of objs
+    // output: a filtered array of stars, only those listed in constellations properties
+    // Create an array of just starName in all three constellations props by
+    // using Object.keys with a map to create an array of obj, then reduce
+    // to make just a starName array.
+    // Then filter the stars array with a conditional if it is included in the above array.
   },
 
   starsByColor() {
@@ -1145,10 +1159,22 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    /* CODE GOES HERE */
+    let starColors = stars.reduce((obj, star) => {
+      if (!obj[star.color]) {
+        obj[star.color] = [];
+      }
+      obj[star.color].push(star);
+      return obj
+    }, {})
+
+    return starColors;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same
+    // output: an object that has keys of a color, values of arrays of starts
+    // that match that color
+    // Use reduce on stars to construct an object with keys, use condition to make
+    // a new key if it doesn't exist with empty array then push that star in to it
   },
 
   constellationsStarsExistIn() {
@@ -1167,10 +1193,17 @@ const astronomyPrompts = {
     //    "The Little Dipper" ]
 
 
-    /* CODE GOES HERE */
+    let constBright = stars.sort((a, b) => {return a.visualMagnitude - b.visualMagnitude}).map(star => {
+      if (star.constellation) {
+        return star.constellation;
+      }
+    }).filter(star => (star));
+    return constBright;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same - I think just need stars array here
+    // output: an array of strings - names of constellations in order of brightness
+    // Use map on stars, to return just const names, also use sort to assemble them in order
   }
 };
 
