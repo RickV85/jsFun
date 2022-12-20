@@ -1230,10 +1230,25 @@ const ultimaPrompts = {
     // Return the sum of the amount of damage for all the weapons that our characters can use
     // Answer => 113
 
-    /* CODE GOES HERE */
+    let weaponsArray = Object.keys(weapons).map(key => {
+      return {'name': key, 'damage': weapons[key].damage};
+    })
+    let damageTotal = characters.reduce((total, char) => {
+      let wepTotal = 0;
+      char.weapons.forEach(weapon => {
+        let foundWeapon = weaponsArray.find(wep => wep.name === weapon);
+        wepTotal += foundWeapon.damage;
+      })
+      return total += wepTotal;
+    }, 0)
+    return damageTotal;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: characters - array of objects, weapons - obj w/ weapon properties
+    // output: a number that is the total 'damage' for each weapn that all characters can use
+    // Use Object.keys on weapons, map the keys to create an array for each
+    // weapon. Use a conditional to filter them to be only weapons that exist in
+    // the charachters.weapons arrays, then use reduce to sum all of the total damage
   },
 
   charactersByTotal() {
@@ -1241,10 +1256,31 @@ const ultimaPrompts = {
     // Return the sum damage and total range for each character as an object.
     // ex: [ { Avatar: { damage: 27, range: 24 }, { Iolo: {...}, ...}
 
-    /* CODE GOES HERE */
+    let weaponsArray = Object.keys(weapons).map(key => {
+      return {'name': key, 'damage': weapons[key].damage, 'range': weapons[key].range};
+    })
+    let charArray = characters.map(char => {
+      let charObj = {[char.name]: {'damage': 0, 'range': 0}};
+      char.weapons.forEach(charWepName => {
+        weaponsArray.forEach(wep => {
+          if (wep.name === charWepName) {
+            charObj[char.name].damage += wep.damage;
+            charObj[char.name].range += wep.range;
+          }
+        })
+      })
+      return charObj;
+    })
+    return charArray;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same
+    // output: an array of objects - each object represents a character and
+    // have one property (name: {damage: #, range: #})
+    // Make a weapons array similar to weaponsArray above but keep all properties
+    // Then characters.map() to create an array of new objects
+    // Use find and forEach to associate the characters with the weapons data
+    // then use reduce to total all weapons total range and damage
   },
 };
 
