@@ -1313,10 +1313,29 @@ const dinosaurPrompts = {
     //   'Jurassic World: Fallen Kingdom': 18
     // }
 
-    /* CODE GOES HERE */
+    let awesomeDinos = movies.reduce((obj, movie) => {
+      obj[movie.title] = 0;
+      movie.dinos.forEach(dino => {
+        if (dinosaurs[dino].isAwesome) {
+          obj[movie.title] += 1;
+        }
+      })
+      return obj;
+    }, {})
+    return awesomeDinos;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: dinosaurs - an object with keys of dinosaur names and each have a value of
+    // an object with three keys of carnivore, herbivore and isAwesome (all booleans)
+    // humans - an object with keys of names - value of an object with properties of
+    // yearBorn, nationality and imdbStarMeterRating
+    // movies - an array of objects representing a movie - properties of title, director,
+    // leadingActor, cast, dinos, cast, dinos, yearReleased, hasOscar, millionsGrossed
+    // output: an object with keys of all movies.title and values of how many dinos isAwesome
+    // is true
+    // Use reduce on movies, return an object with a key for each and initialize it
+    // with a value of zero. Then use a for each to add and reassaign that value if the
+    // dino in the movie isAwesome
   },
 
   averageAgePerMovie() {
@@ -1345,15 +1364,45 @@ const dinosaurPrompts = {
       }
     */
 
-    /* CODE GOES HERE */
+    let moviesByDir = movies.reduce((obj, mov) => {
+      if (!obj[mov.director]) {
+        obj[mov.director] = {[mov.title]: (
+          mov.cast.reduce((sum, actor) => {
+            sum += (mov.yearReleased - humans[actor].yearBorn)
+            return sum;
+          }, 0)
+        )};
+      } else {
+        obj[mov.director][mov.title] = (
+          mov.cast.reduce((sum, actor) => {
+            sum += (mov.yearReleased - humans[actor].yearBorn)
+            return sum;
+          }, 0)
+        );
+      }
+      let totalYears = obj[mov.director][mov.title];
+      obj[mov.director][mov.title] = Math.floor((totalYears / mov.cast.length));
+      return obj;
+    }, {})
+    
+    return moviesByDir;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same
+    // output: an object that has properties of directors of movies - each with
+    // a value the movies they directed and the average age of the cast on the year it
+    // was released.
+    // Create an object with movies.reduce making each director a property with values
+    // of an object of the movies.title they directed and initially assign it to an array of
+    // the cast. Then need to associate the cast with humans[cast.name], find out how old
+    // they were on the movie release date by subtracting it from the release date.
+    // Then use reduce to sum and average it down to return one number.
   },
 
   uncastActors() {
     /*
-    Return an array of objects that contain the names of humans who have not been cast in a Jurassic Park movie (yet), their nationality, and their imdbStarMeterRating. The object in the array should be sorted alphabetically by nationality.
+    Return an array of objects that contain the names of humans who have not been cast in a Jurassic Park movie (yet), 
+    their nationality, and their imdbStarMeterRating. The object in the array should be sorted alphabetically by nationality.
 
     e.g.
       [{
@@ -1377,15 +1426,54 @@ const dinosaurPrompts = {
       }]
     */
 
-    /* CODE GOES HERE */
+    let allActors = Object.keys(humans).map(key => {
+      let actor = humans[key];
+      actor = {'name': key,
+      'nationality': actor.nationality,
+      'imdbStarMeterRating': actor.imdbStarMeterRating,}
+      return actor;
+    })
+
+    let actorsNotInMovies = [];
+    
+    allActors.forEach(actor => {
+      let inMovie = false;
+      movies.forEach(movie => {
+        if (movie.cast.includes(actor.name)) {
+          inMovie = true;
+        }
+      })
+      if (!inMovie) {
+        actorsNotInMovies.push(actor);
+      }
+    })
+
+    actorsNotInMovies.sort((a, b) => {
+      let nationA = a.nationality;
+      let nationB = b.nationality;
+      if (nationA > nationB) {
+        return 1;
+      }
+      if (nationB > nationA) {
+        return -1;
+      }
+    });
+
+    return actorsNotInMovies;
+
+
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same
+    // output: an array of objects - a filtered list of humans that were not in any movies
+    // Use Object.keys(humans).map(human =>) to create an array from the humans object
+    // then use a filter on that array comparing them to the moveis with a nested forEach
   },
 
   actorsAgesInMovies() {
     /*
-    Return an array of objects for each human and the age(s) they were in the movie(s) they were cast in, as an array of age(s). Only include humans who were cast in at least one movie.
+    Return an array of objects for each human and the age(s) they were in the movie(s)
+    they were cast in, as an array of age(s). Only include humans who were cast in at least one movie.
 
     e.g.
     [ { name: 'Sam Neill', ages: [ 46, 54 ] },
@@ -1399,10 +1487,52 @@ const dinosaurPrompts = {
       { name: 'Bryce Dallas Howard', ages: [ 34, 37 ] } ]
     */
 
-    /* CODE GOES HERE */
+      let allActors = Object.keys(humans).map(key => {
+        let actor = humans[key];
+        actor = {'name': key,
+        'yearBorn': actor.yearBorn,
+        'ages': [],}
+        return actor;
+      })
+
+      let actorsInMovies = [];
+      
+      allActors.forEach(actor => {
+        let inMovie = false;
+        movies.forEach(movie => {
+          if (movie.cast.includes(actor.name)) {
+            inMovie = true;
+          }
+        })
+        if (inMovie) {
+          actorsInMovies.push(actor);
+        }
+      })
+
+      actorsInMovies.forEach(actor => {
+        movies.forEach(movie => {
+          if (movie.cast.includes(actor.name)) {
+            actor.ages.push(movie.yearReleased - actor.yearBorn)
+          }
+        })
+      })
+
+      let finalArray = actorsInMovies.map(actor => {
+        actor = {
+          'name': actor.name,
+          'ages': actor.ages
+        };
+        return actor;
+      })
+      return finalArray;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: same
+    // output: an array of objects - key of name, and ages [age in each movie they were in]
+    // Use Object.keys(humans).map() to make an array of human objects like above but leave year born in
+    // Use forEach on movies and casts similar to above to identify the actor in a movie
+    // then subtract the year they were born from the year the movie was made
+    // Remove the yearBorn property and return the array
   }
 };
 
