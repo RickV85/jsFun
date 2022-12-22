@@ -9,7 +9,7 @@ chai.use(function(e, t) {
 })
 
 describe("SCOPE", () => {
-  it.skip("exerciseA", () => {
+  it("exerciseA", () => {
     const e = JSON.stringify(scope.exerciseA()) == JSON.stringify([{
       A: "Ben"
     }, {
@@ -23,7 +23,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseB", () => {
+  it("exerciseB", () => {
     const e = JSON.stringify(scope.exerciseB()) == JSON.stringify([{
       A: 75
     }, {
@@ -37,7 +37,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseC", () => {
+  it("exerciseC", () => {
     const e = JSON.stringify(scope.exerciseC()) == JSON.stringify([{
       A: "Yo"
     }, {
@@ -51,7 +51,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseD", () => {
+  it("exerciseD", () => {
     const e = JSON.stringify(scope.exerciseD()) == JSON.stringify([{
       A: "hi"
     }, {
@@ -65,21 +65,16 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseE", () => {
-    const e = JSON.stringify(scope.exerciseE()) == JSON.stringify([{
-      C: "Brittany"
-    }, {
-      A: "Nathaniel"
-    }, {
-      B: "Nathaniel"
-    }, {
-      D: "Brittany"
-    }]);
+  it("exerciseE", () => {
+    const e = JSON.stringify(scope.exerciseE()) == JSON.stringify([{A: 'Nathaniel'},
+    {B: 'Nathaniel'},
+    {C: 'Brittany'},
+    {D: 'Brittany'}]);
 
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseF", () => {
+  it("exerciseF", () => {
     const e = JSON.stringify(scope.exerciseF()) == JSON.stringify([{
       A: "Spot"
     }, {
@@ -95,7 +90,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseG", () => {
+  it("exerciseG", () => {
     const e = JSON.stringify(scope.exerciseG()) == JSON.stringify([{
       A: "reference error"
     }, {
@@ -109,7 +104,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseH", () => {
+  it("exerciseH", () => {
     const e = JSON.stringify(scope.exerciseH()) == JSON.stringify([{
       A: 4
     }, {
@@ -125,7 +120,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseI", () => {
+  it("exerciseI", () => {
     const e = JSON.stringify(scope.exerciseI()) == JSON.stringify([{
       A: 75
     }, {
@@ -147,7 +142,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseJ", () => {
+  it("exerciseJ", () => {
     const e = JSON.stringify(scope.exerciseJ()) == JSON.stringify([{
       A: "ketchup sandwich"
     }, {
@@ -165,7 +160,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseK", () => {
+  it("exerciseK", () => {
     const e = JSON.stringify(scope.exerciseK()) == JSON.stringify([{
       A: 7
     }, {
@@ -175,7 +170,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseL", () => {
+  it("exerciseL", () => {
     const e = JSON.stringify(scope.exerciseL()) == JSON.stringify([{
       A: 95
     }, {
@@ -187,7 +182,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseM", () => {
+  it("exerciseM", () => {
     const e = JSON.stringify(scope.exerciseM()) == JSON.stringify([{
       A: 5
     }, {
@@ -201,7 +196,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseN", () => {
+  it("exerciseN", () => {
     const e = JSON.stringify(scope.exerciseN()) == JSON.stringify([{
       E: "Pam"
     }, {
@@ -219,7 +214,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseO", () => {
+  it("exerciseO", () => {
     const e = JSON.stringify(scope.exerciseO()) == JSON.stringify([{
       B: "flipflop"
     }, {
@@ -231,7 +226,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseP", () => {
+  it("exerciseP", () => {
     const e = JSON.stringify(scope.exerciseP()) == JSON.stringify([{
       B: "soup"
     }, {
@@ -241,7 +236,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseQ", () => {
+  it("exerciseQ", () => {
     const e = JSON.stringify(scope.exerciseQ()) == JSON.stringify([{
       A: "Pandora"
     }, {
@@ -257,7 +252,7 @@ describe("SCOPE", () => {
     expect(e).withMessage("Your order of execution and/or values for variables in your result object are incorrect").to.be.true
   });
 
-  it.skip("exerciseR", () => {
+  it("exerciseR", () => {
     const e = JSON.stringify(scope.exerciseR()) == JSON.stringify([{
       A: "Rody"
     }, {
