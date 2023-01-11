@@ -596,10 +596,13 @@ const nationalParksPrompts = {
     // { Utah: 'Zion' },
     // { Florida: 'Everglades' } ]
 
-    let parksByState = nationalParks.reduce((parkArray, park) => {
-      parkArray.push({[park.location]: park.name});
-      return parkArray;
-    }, [])
+    // let parksByState = nationalParks.reduce((parkArray, park) => {
+    //   parkArray.push({[park.location]: park.name});
+    //   return parkArray;
+    // }, [])
+    let parksByState = nationalParks.map(park => {
+      return {[park.location]: park.name};
+    })
 
     return parksByState;
 
@@ -625,16 +628,24 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    let allParkActivities = nationalParks.reduce((array, park) => {
-      let allActivities = [];
-      park.activities.forEach(activity => {
-        if (!array.includes(activity)) {
-          allActivities.push(activity);
+    // let allParkActivities = nationalParks.reduce((array, park) => {
+    //   let allActivities = [];
+    //   park.activities.forEach(activity => {
+    //     if (!array.includes(activity)) {
+    //       allActivities.push(activity);
+    //     }
+    //   })
+    //   let combinedArray = array.concat(allActivities);
+    //   array = combinedArray;
+    //   return array;
+    // }, [])
+    let allParkActivities = nationalParks.reduce((arr, park) => {
+      park.activities.forEach(act => {
+        if (!arr.includes(act)) {
+          arr.push(act);
         }
       })
-      let combinedArray = array.concat(allActivities);
-      array = combinedArray;
-      return array;
+      return arr;
     }, [])
     
     return allParkActivities;
@@ -930,7 +941,6 @@ const turingPrompts = {
       return obj;
     }, {})
     return insPerCohort;
-
     // Annotation:
     // input: same as above
     // output: an object with properties of cohort and value is students per instructor
