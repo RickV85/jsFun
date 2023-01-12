@@ -1153,16 +1153,28 @@ const astronomyPrompts = {
     //     color: 'blue'
     //   }
     // ]
+    let starNameArray = stars.map(star => star.name);
 
-    let starsInConst = Object.keys(constellations).map(key => constellations[key]).reduce((arr, star) => {
-      star.starNames.forEach(star => arr.push(star));
+    let starsInConst = Object.keys(constellations).reduce((arr, consta) => {
+      let foundStar;
+      starNameArray.forEach(name => {
+        foundStar = constellations[consta].starNames.find(starName => name === starName)
+        if (foundStar) {
+          arr.push(stars.find(star => star.name === foundStar));
+        }
+      })
       return arr;
     }, [])
+    return starsInConst;
+    
+    // let starsInConst = Object.keys(constellations).map(key => constellations[key]).reduce((arr, star) => {
+    //   star.starNames.forEach(star => arr.push(star));
+    //   return arr;
+    // }, [])
 
-    let filteredStars = stars.filter(star => starsInConst.includes(star.name));
-    let returnStars = [filteredStars[0], filteredStars[2], filteredStars[1], filteredStars[3]]
-
-    return returnStars;
+    // let filteredStars = stars.filter(star => starsInConst.includes(star.name));
+    // let returnStars = [filteredStars[0], filteredStars[2], filteredStars[1], filteredStars[3]]
+    // return returnStars;
 
     // Annotation:
     // input: constellations - obj with props of orion, ursaMajor, ursaMinor objs
@@ -1185,15 +1197,24 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    let starColors = stars.reduce((obj, star) => {
+    let starColorsObj = stars.reduce((obj, star) => {
       if (!obj[star.color]) {
         obj[star.color] = [];
       }
       obj[star.color].push(star);
-      return obj
+      return obj;
     }, {})
+    return starColorsObj;
 
-    return starColors;
+    // let starColors = stars.reduce((obj, star) => {
+    //   if (!obj[star.color]) {
+    //     obj[star.color] = [];
+    //   }
+    //   obj[star.color].push(star);
+    //   return obj
+    // }, {})
+
+    // return starColors;
 
     // Annotation:
     // input: same
@@ -1218,13 +1239,16 @@ const astronomyPrompts = {
     //    "Orion",
     //    "The Little Dipper" ]
 
+    let starsConstByBrightness = stars.sort((a, b) => a.visualMagnitude - b.visualMagnitude)
+    let filteredStars = starsConstByBrightness.filter(star => !(star.constellation === '')).map(star => star.constellation)
+    return filteredStars;
 
-    let constBright = stars.sort((a, b) => {return a.visualMagnitude - b.visualMagnitude}).map(star => {
-      if (star.constellation) {
-        return star.constellation;
-      }
-    }).filter(star => (star));
-    return constBright;
+    // let constBright = stars.sort((a, b) => {return a.visualMagnitude - b.visualMagnitude}).map(star => {
+    //   if (star.constellation) {
+    //     return star.constellation;
+    //   }
+    // }).filter(star => (star));
+    // return constBright;
 
     // Annotation:
     // input: same - I think just need stars array here
