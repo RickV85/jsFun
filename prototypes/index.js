@@ -53,9 +53,8 @@ const kittyPrompts = {
     
     kittyData.forEach((kitty) => {
       kittiesSortedByAge.push(kitty);
-      kittiesSortedByAge.sort(function(a, b){return b.age - a.age});
     });
-    return kittiesSortedByAge;
+    return kittiesSortedByAge.sort((a, b) => b.age - a.age);
 
     // Annotation:
         // Probably could use .map here instead
@@ -162,13 +161,17 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    let modsByStudPerIns = mods.reduce((array, mod) => {
-      let newMod = {}
-      newMod.mod = mod.mod;
-      newMod.studentsPerInstructor = mod.students / mod.instructors;
-      array.push(newMod);
-      return array;
-    }, [])
+    // let modsByStudPerIns = mods.reduce((array, mod) => {
+    //   let newMod = {}
+    //   newMod.mod = mod.mod;
+    //   newMod.studentsPerInstructor = mod.students / mod.instructors;
+    //   array.push(newMod);
+    //   return array;
+    // }, [])
+    let modsByStudPerIns = mods.map(mod => {
+      let studPerIns = mod.students / mod.instructors;
+      return {'mod': mod.mod, 'studentsPerInstructor': studPerIns}
+    })
     return modsByStudPerIns;
 
     // Annotation:
@@ -267,14 +270,22 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    let toppingsArray = [];
-    cakes.forEach((cake) => {
-      cake.toppings.forEach(topping => {
-        if (!toppingsArray.includes(topping)) {
-          toppingsArray.push(topping);
+    // let toppingsArray = [];
+    // cakes.forEach((cake) => {
+    //   cake.toppings.forEach(topping => {
+    //     if (!toppingsArray.includes(topping)) {
+    //       toppingsArray.push(topping);
+    //     }
+    //   })
+    // })
+    let toppingsArray = cakes.reduce((arr, cake) => {
+      cake.toppings.forEach(top => {
+        if (!arr.includes(top)) {
+          arr.push(top)
         }
       })
-    })
+      return arr;
+    }, [])
     return toppingsArray;
 
     // Annotation:
@@ -380,7 +391,7 @@ const classPrompts = {
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    return classrooms.sort((a, b)=> a.capacity - b.capacity);
+    return classrooms.sort((a, b) => a.capacity - b.capacity);
 
     // Annotation:
     // input: same as above
@@ -569,16 +580,21 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    let visitList = nationalParks.reduce((listObj, park) => {
-      if (park.visited === true) {
-        listObj.parksVisited.push(park.name);
-      } else { 
-        listObj.parksToVisit.push(park.name);
-      }
-      return listObj;
-    }, {parksToVisit: [], parksVisited: []})
+    // let visitList = nationalParks.reduce((listObj, park) => {
+    //   if (park.visited === true) {
+    //     listObj.parksVisited.push(park.name);
+    //   } else { 
+    //     listObj.parksToVisit.push(park.name);
+    //   }
+    //   return listObj;
+    // }, {parksToVisit: [], parksVisited: []})
 
+    let visitList = nationalParks.reduce((obj, park) => {
+      park.visited ? obj.parksVisited.push(park.name) : obj.parksToVisit.push(park.name);
+      return obj;
+    }, {'parksToVisit': [], 'parksVisited': []})
     return visitList;
+
 
     // Annotation:
     // input: an array of objects, containing name, visitied, location, and activities shich has an array as a value
